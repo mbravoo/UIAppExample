@@ -13,16 +13,17 @@ import android.view.ViewGroup;
 import com.example.telematica.uiappexample.R;
 import com.example.telematica.uiappexample.activities.MainActivity;
 import com.example.telematica.uiappexample.presenters.ListBookPresenterImpl;
+import com.example.telematica.uiappexample.views.ListBookView;
 
 /**
  * Created by Matias on 15-01-2016.
  */
-public class ListBookFragment extends Fragment{
+public class ListBookFragment extends Fragment implements ListBookView{
 
     private ListBookPresenterImpl mListBookPresenter;
 
     public RecyclerView mRecyclerView;
-    public RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public static ListBookFragment newInstance() {
         ListBookFragment fragment = new ListBookFragment();
@@ -42,10 +43,17 @@ public class ListBookFragment extends Fragment{
         mRecyclerView = (RecyclerView) mainView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
 
-        mListBookPresenter = new ListBookPresenterImpl(mRecyclerView, mAdapter);
+        mLayoutManager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        mListBookPresenter = new ListBookPresenterImpl(this);
         mListBookPresenter.getTask().execute();
 
         return mainView;
+    }
+
+    public void manageRecyclerView(RecyclerView.Adapter mAdapter){
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 }

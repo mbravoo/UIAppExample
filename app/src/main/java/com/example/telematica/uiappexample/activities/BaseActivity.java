@@ -13,7 +13,6 @@ import com.example.telematica.uiappexample.fragments.ListBookFragment;
 public class BaseActivity extends AppCompatActivity {
 
     private int contentFrame;
-    private static Context mContext;
 
     protected void setContentFrame(int contentFrame){
         this.contentFrame = contentFrame;
@@ -21,10 +20,6 @@ public class BaseActivity extends AppCompatActivity {
 
     public void switchContent(ListBookFragment fragment, String addBackStack) {
         switchContent(fragment, addBackStack, -1, -1);
-    }
-
-    public static Context getContext() {
-        return mContext;
     }
 
     /**

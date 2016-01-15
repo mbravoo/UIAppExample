@@ -1,15 +1,12 @@
 package com.example.telematica.uiappexample.presenters;
 
-import android.app.Activity;
 import android.os.AsyncTask;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.example.telematica.uiappexample.UIAdapter;
-import com.example.telematica.uiappexample.activities.MainActivity;
 import com.example.telematica.uiappexample.connection.HttpServerConnection;
 import com.example.telematica.uiappexample.models.Libro;
 import com.example.telematica.uiappexample.presenters.contract.ListBookPresenter;
+import com.example.telematica.uiappexample.views.ListBookView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,16 +20,12 @@ import java.util.List;
  */
 public class ListBookPresenterImpl implements ListBookPresenter{
 
-    private RecyclerView mRecyclerView;
-    public RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
 
-    public ListBookPresenterImpl(RecyclerView mRecyclerView, RecyclerView.Adapter mAdapter) {
-        this.mRecyclerView = mRecyclerView;
-        this.mAdapter = mAdapter;
+    private ListBookView mListBookView;
 
-        mLayoutManager = new LinearLayoutManager(MainActivity.getContext(), LinearLayoutManager.VERTICAL, false);
-        this.mRecyclerView.setLayoutManager(mLayoutManager);
+    public ListBookPresenterImpl(ListBookView mListBookView) {
+        this.mListBookView = mListBookView;
     }
 
     AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
@@ -55,7 +48,7 @@ public class ListBookPresenterImpl implements ListBookPresenter{
 
                 // specify an adapter (see also next example)
                 mAdapter = new UIAdapter(getLista(result));
-                mRecyclerView.setAdapter(mAdapter);
+                mListBookView.manageRecyclerView(mAdapter);
             }
         }
     };
